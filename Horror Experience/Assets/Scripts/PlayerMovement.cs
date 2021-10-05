@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float turnSpeed = 20f;
+    public float turnSpeed = 20f; //회전속도 (인스펙터창에 나타나게 하기 위해 public)
     Animator m_Animator;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
@@ -27,9 +27,10 @@ public class PlayerMovement : MonoBehaviour
         bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f); //수평이동이 있는지 여부 파악
         bool hasVerticalInput = !Mathf.Approximately(vertical, 0f); //수직 ""
         bool isWalking = hasHorizontalInput || hasVerticalInput; //수평, 수직 하나라도 있는지 확인
-        m_Animator.SetBool("IsWalking", isWalking);
+        m_Animator.SetBool("IsWalking", isWalking);//파리미터 이름, 데이터 값 순서로
 
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f); 
+        //현재 회전값, 목표 회전값, 각도의 변화, 크기의 변화
         m_Rotation = Quaternion.LookRotation(desiredForward);
     }
 
