@@ -9,11 +9,13 @@ public class PlayerMovement : MonoBehaviour
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
     Rigidbody m_Rigidbody;
+    AudioSource m_AudioSource;
 
     void Start()
     {
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_AudioSource = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -28,6 +30,18 @@ public class PlayerMovement : MonoBehaviour
         bool hasVerticalInput = !Mathf.Approximately(vertical, 0f); //수직 ""
         bool isWalking = hasHorizontalInput || hasVerticalInput; //수평, 수직 하나라도 있는지 확인
         m_Animator.SetBool("IsWalking", isWalking);//파리미터 이름, 데이터 값 순서로
+        if (isWalking)
+        {
+            if (!m_AudioSource.isPlaying)
+            {
+                m_AudioSource.Play();
+            }
+
+        }
+        else
+        {
+            m_AudioSource.Stop();
+        }
 
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f); 
         //현재 회전값, 목표 회전값, 각도의 변화, 크기의 변화
